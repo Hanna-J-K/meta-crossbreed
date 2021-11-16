@@ -32,10 +32,8 @@ def numberify(string):
     return int(string.replace(' ', ''))
 
 
-table = table.split('\n')
-table = list(map(lambda x: x.split('	'), table))
-
-items = np.array(
-    [(row[1].strip(), numberify(row[2]), numberify(row[3])) for row in table])
-
-print(items)
+def generate_items(table: str) -> np.ndarray:
+    table = table.split('\n')
+    table = list(map(lambda x: x.split('	'), table))
+    return np.array(
+        [(row[1].strip(), numberify(row[2]), numberify(row[3])) for row in table])

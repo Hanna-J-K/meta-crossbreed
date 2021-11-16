@@ -28,7 +28,7 @@ table = '''1 	Toporek 	32 252 	68 674
 26 	Puchar z cynku 	978 724 	2 100 851'''
 
 
-def numberify(string):
+def numberify(string: str) -> int:
     return int(string.replace(' ', ''))
 
 

@@ -1,4 +1,6 @@
-xd = '''1 	Toporek 	32 252 	68 674
+import numpy as np
+
+table = '''1 	Toporek 	32 252 	68 674
 2 	Moneta z brazu 	225 790 	471 010
 3 	Korona 	468 164 	944 620
 4 	Diamentowy posazek 	489 494 	962 094
@@ -30,8 +32,10 @@ def numberify(string):
     return int(string.replace(' ', ''))
 
 
-xd = xd.split('\n')
-xd = list(map(lambda x: x.split('	'), xd))
-for wiersz in xd:
-    print(
-        f"('{wiersz[1].strip()}', {numberify(wiersz[2])}, {numberify(wiersz[3])}),")
+table = table.split('\n')
+table = list(map(lambda x: x.split('	'), table))
+
+items = np.array(
+    [(row[1].strip(), numberify(row[2]), numberify(row[3])) for row in table])
+
+print(items)

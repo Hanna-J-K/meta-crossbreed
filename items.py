@@ -3,6 +3,7 @@ import numpy as np
 NAME = 0
 WEIGHT = 1
 VALUE = 2
+KNAPSACK_SIZE = 6404180
 
 items = np.array([
     ('Toporek', 32252, 68674),
@@ -32,3 +33,4 @@ items = np.array([
     ('Stara ksiega', 926023, 1746556),
     ('Puchar z cynku', 978724, 2100851),
 ])
+items_length = items.shape[0]

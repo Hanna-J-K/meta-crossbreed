@@ -1,5 +1,7 @@
 import numpy as np
 from items import items, KNAPSACK_SIZE, WEIGHT, VALUE
+from decorator import measuretime
+
 
 
 def map_row_to_property(row: np.ndarray, property: int) -> np.ndarray:

@@ -26,3 +26,10 @@ def right(array: np.ndarray, split_point: int) -> np.ndarray:
 
 def cross_arrays(pair: np.ndarray, cross_point: int) -> np.ndarray:
     return join_arrays(left(pair[0], cross_point), right(pair[1], cross_point))
+
+
+def flip_gene(gene: int) -> int:
+    return 0 if gene else 1
+
+def flip_child(child: np.ndarray) -> np.ndarray:
+    return np.vectorize(flip_gene)(child)

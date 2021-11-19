@@ -18,5 +18,5 @@ def adaptation_function(row: np.ndarray) -> int:
     return row_value(row) if row_weight(row) <= KNAPSACK_SIZE else 0
 
 
-def calculate_total_adaptation(population: np.ndarray) -> int:
-    return sum(adaptation_function(row) for row in population)
+def calculate_total_adaptation(population: np.ndarray) -> np.int64:
+    return np.array([adaptation_function(row) for row in population], dtype=np.int64).sum()

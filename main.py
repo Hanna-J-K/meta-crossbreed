@@ -7,33 +7,39 @@ import selection
 import utils
 import items
 from decorator import measuretime
-
-CROSSING_PROBABILITY = .3
-MUTATION_PROBABILITY = .001
-POPULATION_SIZE = 500
-NO_OF_ITERATIONS = 3000
+from params import *
 
 
-x = population.random_population(POPULATION_SIZE)
+def map_to_adaptation(population):
+    return np.array(list(map(adaptation.adaptation_function, population)))
 
 
+all_children = population.random_population()
+# print()
+# potential_parents = selection.roulette_selection(
+#     all_children, POPULATION_SIZE)
+# print(map_to_adaptation(potential_parents))
+# count = crossbreed.get_crossbreed_pair_count()
+# print(count)
+# parents = crossbreed.get_parents(potential_parents, count)
+# # print(parents)
+# all_children = crossbreed.crossbreed_population(
+#     all_children, selection.roulette_selection, crossbreed.make_new_generation_single_point)
+# print(map_to_adaptation(all_children))
 
-def make_new_child(population: np.ndarray):
-    parents = utils.get_random_pair(population)
-    crossbred = crossbreed.do_crossbreed_single_point(parents, np.random.randint(1, items.items_length))
-    return mutation.mutate_child(crossbred[0], MUTATION_PROBABILITY)
 
+for i in range(NO_OF_ITERATIONS):
+    copy = all_children
+    potential_parents = selection.roulette_selection(
+        all_children, POPULATION_SIZE)
+    count = crossbreed.get_crossbreed_pair_count()
+    parents = crossbreed.get_parents(potential_parents, count)
+    all_children = crossbreed.crossbreed_population(
+        all_children, selection.roulette_selection, crossbreed.make_new_generation_dual_point)
+    all_children = crossbreed.fill_generation(copy, all_children)
+    max = adaptation.get_highest_adaptation(
+        all_children)
+    if i % 5 == 0:
+        print(max)
 
-def foo(population):
-    population = selection.roulette_selection(population, POPULATION_SIZE)
-    population = np.array([make_new_child(population) for _ in range(POPULATION_SIZE)])
-
-
-for iteration in range(NO_OF_ITERATIONS):
-    foo(x)
-
-last_generation_adaptation = np.array(list(map(adaptation.adaptation_function, x)))
-index = np.argmax(last_generation_adaptation)
-
-print(max(last_generation_adaptation))
-print(last_generation_adaptation[index], adaptation.row_weight(x[index]))
+# print(next_max)

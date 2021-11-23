@@ -3,7 +3,6 @@ from items import items, KNAPSACK_SIZE, WEIGHT, VALUE
 from decorator import measuretime
 
 
-
 def map_row_to_property(row: np.ndarray, property: int) -> np.ndarray:
     return np.where(row == 1, items[:, property], 0).astype(int)
 
@@ -21,4 +20,12 @@ def adaptation_function(row: np.ndarray) -> int:
 
 
 def calculate_total_adaptation(population: np.ndarray) -> np.int64:
-    return np.array([adaptation_function(row) for row in population], dtype=np.int64).sum()
+    x = np.array([adaptation_function(row)
+                 for row in population], dtype=np.int64).sum()
+    if x == 0:
+        print(f"WARNING: x == 0")
+    return x
+
+
+def get_highest_adaptation(population: np.ndarray) -> int:
+    return np.array(list(map(adaptation_function, population))).max()

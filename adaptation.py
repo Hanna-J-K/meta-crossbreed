@@ -20,11 +20,8 @@ def adaptation_function(row: np.ndarray) -> int:
 
 
 def calculate_total_adaptation(population: np.ndarray) -> np.int64:
-    x = np.array([adaptation_function(row)
-                 for row in population], dtype=np.int64).sum()
-    if x == 0:
-        print(f"WARNING: x == 0")
-    return x
+    return np.array([adaptation_function(row)
+                     for row in population], dtype=np.int64).sum()
 
 
 def get_highest_adaptation(population: np.ndarray) -> int:

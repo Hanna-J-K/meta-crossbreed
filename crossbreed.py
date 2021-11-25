@@ -3,6 +3,7 @@ from utils import twice, cross_arrays, dual_cross_arrays, get_pair_count, flatte
 from typing import Callable
 from params import *
 from mutation import mutate_children
+from adaptation import adaptation_function
 
 rng = np.random.default_rng()
 
@@ -64,4 +65,5 @@ def crossbreed_population(population: np.ndarray, selection_method: Callable[[np
 
 
 def fill_generation(prev_population: np.ndarray, children: np.ndarray) -> np.ndarray:
-    return np.concatenate((mutate_children(children), rng.choice(prev_population, size=prev_population.shape[0] - children.shape[0])))
+    # return np.concatenate((mutate_children(children), rng.choice(prev_population, size=prev_population.shape[0] - children.shape[0])))
+    return np.concatenate((mutate_children(children), np.array(sorted(list(prev_population), key=adaptation_function))[-(prev_population.shape[0] - children.shape[0]):]))

@@ -24,3 +24,7 @@ def get_pair_winner(pair: np.ndarray) -> np.ndarray:
 
 def tournament_selection(population: np.ndarray, new_size: int) -> np.ndarray:
     return np.array([get_pair_winner(get_random_pair(population)) for _ in range(new_size)])
+
+
+def add_elite(current_population: np.ndarray, prev_population: np.ndarray) -> np.ndarray:
+    return np.concatenate((np.array(sorted(list(prev_population), key=adaptation_function))[-2:], current_population[2:]))

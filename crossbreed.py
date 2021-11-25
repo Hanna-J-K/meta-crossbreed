@@ -65,5 +65,4 @@ def crossbreed_population(population: np.ndarray, selection_method: Callable[[np
 
 
 def fill_generation(prev_population: np.ndarray, children: np.ndarray) -> np.ndarray:
-    # return np.concatenate((mutate_children(children), rng.choice(prev_population, size=prev_population.shape[0] - children.shape[0])))
     return np.concatenate((mutate_children(children), np.array(sorted(list(prev_population), key=adaptation_function))[-(prev_population.shape[0] - children.shape[0]):]))

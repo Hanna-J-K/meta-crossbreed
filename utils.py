@@ -1,13 +1,12 @@
 import numpy as np
 import math
-from decorator import nayeon
+from decorator import nayeon, jeongyeon, momo, sana, jihyo, mina, dahyun, chaeyoung, tzuyu
 from typing import Callable
 
 
 rng = np.random.default_rng()
 
 
-# @nayeon
 def twice(callback: Callable, *args, **kwargs) -> tuple:
     return tuple(callback(*args, **kwargs) for _ in range(2))
 
@@ -62,7 +61,3 @@ def get_pair_count(population_size: int) -> int:
 
 def flatten_one_dimension(array: np.ndarray) -> np.ndarray:
     return array.reshape(-1, array.shape[-1])
-
-
-def variance(prev_value: int, next_value: int) -> float:
-    return (prev_value * 1.0 - next_value)**2 / 2.0

@@ -1,7 +1,6 @@
 import numpy as np
 from adaptation import adaptation_function, calculate_total_adaptation
 from utils import get_random_pair
-from decorator import measuretime
 
 rng = np.random.default_rng()
 

@@ -1,13 +1,9 @@
 import population
 import crossbreed
-import numpy as np
-import adaptation
 import selection
 import mutation
-from decorator import measuretime
 from params import *
-from matplotlib import pyplot as plt
-from plot import plot_comparison, plot__triple__comparison
+from plot import plot__triple__comparison_population, plot_comparison, plot__triple__comparison
 
 
 def method_rs(x): return crossbreed.crossbreed_population(
@@ -64,6 +60,7 @@ def generate_crossing_probability(values: tuple) -> None:
         else:
             i = i + 1
 
+
 def generate_mutation_probability(values: tuple) -> None:
     i = 0
     while True:
@@ -75,64 +72,34 @@ def generate_mutation_probability(values: tuple) -> None:
             i = i + 1
 
 
+def generate_population_size(values: tuple) -> None:
+    i = 0
+    while True:
+        population.POPULATION_SIZE = values[i]
+        crossbreed.POPULATION_SIZE = values[i]
+        yield
+        if i == 2:
+            i = 0
+        else:
+            i = i + 1
+
 
 crossing_modifier_params = (0.1, 0.5, 0.9)
 mutation_modifier_params = (0.001, 0.005, 0.009)
+population_modifier_params = (10, 100, 1000)
 
-plot__triple__comparison(method_rs, rs_name, generate_crossing_probability, crossing_modifier_params)
-plot__triple__comparison(method_ts, ts_name, generate_crossing_probability, crossing_modifier_params)
+plot__triple__comparison(
+    method_rs, rs_name, generate_crossing_probability, crossing_modifier_params)
+plot__triple__comparison(
+    method_ts, ts_name, generate_crossing_probability, crossing_modifier_params)
 
-plot__triple__comparison(method_rs, rs_name, generate_mutation_probability, mutation_modifier_params)
-plot__triple__comparison(method_ts, ts_name, generate_mutation_probability, mutation_modifier_params)
-# starting_population = population.random_population()
-# all_children = starting_population
-# priveleged_children = starting_population
+plot__triple__comparison(
+    method_rs, rs_name, generate_mutation_probability, mutation_modifier_params)
+plot__triple__comparison(
+    method_ts, ts_name, generate_mutation_probability, mutation_modifier_params)
 
-# no_elite = []
-# elite = []
-# for _ in range(REPEATS):
-#     all_children = starting_population
-#     no_elite.append([])
-#     for i in range(NO_OF_ITERATIONS):
-#         all_copy = all_children
-#         # priveleged_copy = priveleged_children
 
-#         all_children = crossbreed.crossbreed_population(
-#             all_children, selection.roulette_selection, crossbreed.make_new_generation_dual_point)
-#         all_children = crossbreed.fill_generation(all_copy, all_children)
-
-#         # priveleged_children = crossbreed.crossbreed_population(
-#         #     priveleged_children, selection.roulette_selection, crossbreed.make_new_generation_dual_point)
-#         # priveleged_children = crossbreed.fill_generation(
-#         #     priveleged_copy, priveleged_children)
-#         # priveleged_children = selection.add_elite(
-#         #     priveleged_children, priveleged_copy)
-
-#         no_elite[-1].append(adaptation.get_highest_adaptation(
-#             all_children))
-#         # elite.append(adaptation.get_highest_adaptation(
-#         #     priveleged_children))
-
-#         # if(np.unique(all_children, axis=0).shape[0] < POPULATION_SIZE * MIN_CHANGE_RATIO and i != 0):
-#         #     print(f"Stopped due to no alterations in {i} iterations")
-#         #     break
-
-# no_elite = np.array(no_elite)
-# mean = np.mean(no_elite, axis=0)
-# print(f"No_elite: {mean[-1]}")
-# # print(f"Elite: {elite[-1]}")
-# max_index = np.argmax(no_elite[:, -1])
-# min_index = np.argmin(no_elite[:, -1])
-# # for element in no_elite:
-# #     plt.plot(list(range(len(element))), element,
-# #              color='pink', linewidth=1)
-# plt.plot(list(range(len(no_elite[0]))), no_elite[max_index],
-#          color='pink', label='max')
-# plt.plot(list(range(len(no_elite[0]))), no_elite[min_index],
-#          color='thistle', label='min')
-# plt.plot(list(range(len(mean))), mean,
-#          color='palevioletred', label='no_elite')
-
-# # plt.plot(list(range(len(elite))), elite, color='black', label='elite')
-# plt.legend()
-# plt.show()
+plot__triple__comparison_population(
+    method_rs, rs_name, generate_population_size, population_modifier_params)
+plot__triple__comparison_population(
+    method_ts, ts_name, generate_population_size, population_modifier_params)

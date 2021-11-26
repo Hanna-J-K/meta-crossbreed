@@ -1,6 +1,5 @@
 import numpy as np
 import math
-from decorator import nayeon, jeongyeon, momo, sana, jihyo, mina, dahyun, chaeyoung, tzuyu
 from typing import Callable
 
 

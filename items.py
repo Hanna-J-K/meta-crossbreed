@@ -34,3 +34,7 @@ items = np.array([
     ('Puchar z cynku', 978724, 2100851),
 ])
 items_length = items.shape[0]
+
+
+def to_latex() -> None:
+    print(" \\\\\n".join([" & ".join(map(''.join, line)) for line in items]))

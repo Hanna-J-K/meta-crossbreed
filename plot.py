@@ -4,7 +4,7 @@ import population
 import mutation
 from typing import Callable
 from crossbreed import fill_generation
-from adaptation import get_highest_adaptation
+from adaptation import get_highest_adaptation, row_weight
 from selection import add_elite
 import numpy as np
 from matplotlib import pyplot as plt
@@ -81,11 +81,32 @@ def plot_comparison(method_a: Callable, method_b: Callable, a_name: str, b_name:
 
     values_a = np.array(values_a)
     values_b = np.array(values_b)
+
+    
+    
     mean_a, mean_b = np.mean(values_a, axis=0), np.mean(values_b, axis=0)
     min_a, min_b = values_a[np.argmin(
         values_a[:, -1])], values_b[np.argmin(values_b[:, -1])]
     max_a, max_b = values_a[np.argmax(
         values_a[:, -1])], values_b[np.argmax(values_b[:, -1])]
+
+    print(f"{a_name}  {b_name}")
+
+    print(f"Mean {a_name}: {mean_a[-1]}")
+    print(f"Mean {b_name}: {mean_b[-1]}")
+
+    print()
+
+    print(f"Max {a_name}: {max_a[-1]}")
+    print(f"Max {b_name}: {max_b[-1]}")
+
+    print()
+
+    print(f"Max weight: {a_name}: {row_weight(population_a[-1])}")
+    print(f"Max weight: {b_name}: {row_weight(population_b[-1])}")
+
+    print()
+
     plt.figure()
     plot_a(min_a, mean_a, max_a, a_name)
     plot_b(min_b, mean_b, max_b, b_name)
@@ -93,7 +114,7 @@ def plot_comparison(method_a: Callable, method_b: Callable, a_name: str, b_name:
     plt.title(f"{a_name} vs {b_name}")
     plt.xlabel("Iterations")
     plt.ylabel("Knapsack value")
-    plt.savefig(f"plots/{a_name}_vs_{b_name}.png")
+    plt.savefig(f"{a_name}_vs_{b_name}.png")
 
 
 def plot__triple__comparison(method: Callable, name: str, params_generator: Callable, params: tuple) -> None:
@@ -141,6 +162,9 @@ def plot__triple__comparison(method: Callable, name: str, params_generator: Call
 
     crossbreed.CROSSING_PROBABILITY = CROSSING_PROBABILITY
     mutation.MUTATION_PROBABILITY = MUTATION_PROBABILITY
+    population.POPULATION_SIZE = POPULATION_SIZE
+    crossbreed.POPULATION_SIZE = POPULATION_SIZE
+
 
     values_a = np.array(values_a)
     values_b = np.array(values_b)
@@ -150,6 +174,27 @@ def plot__triple__comparison(method: Callable, name: str, params_generator: Call
         values_a[:, -1])], values_b[np.argmin(values_b[:, -1])], values_c[np.argmin(values_c[:, -1])]
     max_a, max_b, max_c = values_a[np.argmax(
         values_a[:, -1])], values_b[np.argmax(values_b[:, -1])], values_c[np.argmax(values_c[:, -1])]
+
+    print(f"{name}  {params}")
+
+    print(f"Mean {name} ({params[0]}): {mean_a[-1]}")
+    print(f"Mean {name} ({params[1]}): {mean_b[-1]}")
+    print(f"Mean {name} ({params[2]}): {mean_c[-1]}")
+
+    print()
+
+    print(f"Max {name} ({params[0]}): {max_a[-1]}")
+    print(f"Max {name} ({params[1]}): {max_b[-1]}")
+    print(f"Max {name} ({params[2]}): {max_c[-1]}")
+
+    print()
+
+    print(f"Max weight: {name} ({params[0]}): {row_weight(population_a[-1])}")
+    print(f"Max weight: {name} ({params[1]}): {row_weight(population_b[-1])}")
+    print(f"Max weight: {name} ({params[2]}): {row_weight(population_c[-1])}")
+
+    print()
+
     plt.figure()
     plot_a(min_a, mean_a, max_a, f"{name} ({params[0]})")
     plot_b(min_b, mean_b, max_b, f"{name} ({params[1]})")
